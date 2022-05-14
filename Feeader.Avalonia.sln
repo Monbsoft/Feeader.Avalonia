@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F69D0372-402F-4FAA-ACC6-441D9FE69EB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monbsoft.Feeader.Avalonia", "src\Monbsoft.Feeader.Avalonia\Monbsoft.Feeader.Avalonia.csproj", "{6428F4AE-5010-4B05-8879-490FB2F71CCE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6428F4AE-5010-4B05-8879-490FB2F71CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6428F4AE-5010-4B05-8879-490FB2F71CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6428F4AE-5010-4B05-8879-490FB2F71CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6428F4AE-5010-4B05-8879-490FB2F71CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6428F4AE-5010-4B05-8879-490FB2F71CCE} = {F69D0372-402F-4FAA-ACC6-441D9FE69EB5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12AC2DD7-56E7-4728-AD8B-290D6DB42CA9}
+	EndGlobalSection
+EndGlobal
