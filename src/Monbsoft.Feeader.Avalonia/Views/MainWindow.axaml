@@ -3,6 +3,7 @@
         xmlns:vm="using:Monbsoft.Feeader.Avalonia.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:views="using:Monbsoft.Feeader.Avalonia.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Monbsoft.Feeader.Avalonia.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -16,14 +17,8 @@
 			<ColumnDefinition />
 			<ColumnDefinition Width="2*" />
 		</Grid.ColumnDefinitions>
-		<ListBox Items="{Binding Feeds}">
-			<ListBox.ItemTemplate>
-				<DataTemplate>
-					<TextBlock Text="{Binding SelectedFeed}"/>
-				</DataTemplate>
-			</ListBox.ItemTemplate>
-		</ListBox>
-		<ListBox Items="{Binding Articles}">
+		<views:NavMenuView />
+		<ListBox Grid.Column="1" Items="{Binding Articles}">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Title}"/>

@@ -1,4 +1,5 @@
 ﻿using Monbsoft.Feeader.Avalonia.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel.Syndication;
@@ -18,12 +19,21 @@ namespace Monbsoft.Feeader.Avalonia.Services
 
         public static async Task<List<Feed>> LoadAsync()
         {
+            List<Feed>? feeds = null;
+
             if (!File.Exists(LocalFullFileName))
                 return new List<Feed>();
 
-            using var stream = File.OpenRead(LocalFullFileName);
-            List<Feed>? feeds = await JsonSerializer.DeserializeAsync<List<Feed>>(stream);
-            return feeds ?? new List<Feed>();
+            try
+            {
+                using var stream = File.OpenRead(LocalFullFileName);
+                feeds = await JsonSerializer.DeserializeAsync<List<Feed>>(stream);
+
+            }
+            catch(NotSupportedException)
+            {                
+            }
+                return feeds ?? new List<Feed>();
         }
 
         public static Task<Feed> GetFeedDataAsync(string url)
