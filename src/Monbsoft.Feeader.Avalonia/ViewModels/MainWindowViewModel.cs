@@ -13,6 +13,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     private CancellationTokenSource? _cancellationTokenSource;
     private Feed? _selectedFeed;
+    private ArticleViewModel? _selectedArticle;
 
 
     public MainWindowViewModel()
@@ -23,7 +24,7 @@ public class MainWindowViewModel : ViewModelBase
             .Subscribe(LoadArticles);
     }
 
-    public ObservableCollection<Article> Articles { get; } = new ();
+    public ObservableCollection<ArticleViewModel> Articles { get; } = new ();
 
     public ObservableCollection<Feed> Feeds { get; } = new();
 
@@ -33,9 +34,15 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _selectedFeed, value);
     }
 
+    public ArticleViewModel? SelectedArticle
+    {
+        get => _selectedArticle;
+        set => this.RaiseAndSetIfChanged(ref _selectedArticle, value);
+    }
+
     public async void LoadFeedsAsync()
     {
-        var feeds = await FeedService.LoadAsync();
+        var feeds = await FeedService.LoadAsync();      
 
         foreach(var feed in feeds)
         {
@@ -49,7 +56,7 @@ public class MainWindowViewModel : ViewModelBase
         _cancellationTokenSource = new CancellationTokenSource();
         foreach(var article in await ArticleService.LoadAsync(feed))
         {
-            Articles.Add(article);
+            Articles.Add(new ArticleViewModel(article));
         }
     }
 }

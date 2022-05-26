@@ -19,8 +19,8 @@ namespace Monbsoft.Feeader.Avalonia.Services
                     var data = SyndicationFeed.Load(reader);
                     foreach (var item in data.Items)
                     {
-                        var article = new Article(item.Id, item.Title.Text, item.PublishDate.DateTime, item.Links.First().Uri.AbsoluteUri)
-                            .WithDescription(item.Summary?.Text);
+                        var article = new Article(item.Id, item.Title.Text, item.PublishDate.DateTime, item.Links.First().Uri)
+                            .WithSummary(item.Summary?.Text);
                         articles.Add(article);
                     }
                 };

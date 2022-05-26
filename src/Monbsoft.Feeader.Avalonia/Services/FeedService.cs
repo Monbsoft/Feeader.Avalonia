@@ -40,8 +40,8 @@ namespace Monbsoft.Feeader.Avalonia.Services
         {
             using (var reader = XmlReader.Create(url))
             {
-                var data = SyndicationFeed.Load(reader);
-                return Task.FromResult(new Feed(data.Title?.Text, url));
+                var data = SyndicationFeed.Load(reader); 
+                return Task.FromResult(new Feed(data.Title?.Text ?? "Unknown title", url));
             }
         }
 
