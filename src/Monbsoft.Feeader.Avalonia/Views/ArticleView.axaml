@@ -6,7 +6,11 @@
              x:Class="Monbsoft.Feeader.Avalonia.Views.ArticleView">
 	<StackPanel Spacing="5">
 		<Border CornerRadius="10" ClipToBounds="True">
-		</Border>
+			<Image Height="140" 
+				   Source="{Binding Picture}"
+				   HorizontalAlignment="Center"
+				   VerticalAlignment="Center"/>
+		</Border>		
 		<TextBlock Classes="h1" 
 				   Text="{Binding Title}" 
 				   TextAlignment="Center"

@@ -42,6 +42,8 @@ public class MainWindowViewModel : ViewModelBase
 
     public async void LoadFeedsAsync()
     {
+        FeedService.InitializeCache();
+        PictureService.InitializePictureCache();
         var feeds = await FeedService.LoadAsync();      
 
         foreach(var feed in feeds)
@@ -54,9 +56,27 @@ public class MainWindowViewModel : ViewModelBase
     {
         _cancellationTokenSource?.Cancel();
         _cancellationTokenSource = new CancellationTokenSource();
-        foreach(var article in await ArticleService.LoadAsync(feed))
+        foreach(var article in await ArticleService.LoadAsync(feed, _cancellationTokenSource.Token))
         {
             Articles.Add(new ArticleViewModel(article));
+        }
+        if (!_cancellationTokenSource.IsCancellationRequested)
+        {
+            LoadPictures(_cancellationTokenSource.Token);
+        }
+
+    }
+
+    private async void LoadPictures(CancellationToken cancellationToken)
+    {
+        foreach (var article in Articles)
+        {
+            await article.LoadPictureAsync(cancellationToken);
+
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
         }
     }
 }

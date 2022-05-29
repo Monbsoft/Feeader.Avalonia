@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Monbsoft.Feeader.Avalonia.Models;
 
@@ -25,6 +28,10 @@ public class Article
     /// </summary>
     public string Id { get; }
     /// <summary>
+    /// Gets the picture uri of the article.
+    /// </summary>
+    public Uri? PictureUri { get; private set; }
+    /// <summary>
     /// Gets the title of the article.
     /// </summary>
     public string Title { get; }
@@ -32,7 +39,6 @@ public class Article
     /// Gets the URI of the article.
     /// </summary>
     public Uri Link { get; }
-
 
     public override bool Equals(object? obj)
     {
@@ -43,7 +49,6 @@ public class Article
             return true;
         return Link == other.Link;
     }
-
     public override int GetHashCode()
     {
         //return Link.GetComponents(UriComponents.Host | UriComponents.Path, UriFormat.Unescaped).GetHashCode();
@@ -55,7 +60,11 @@ public class Article
     {
         return Title;
     }
-
+    public Article WithPicture(Uri? picture)
+    {
+        PictureUri = picture;
+        return this;
+    }
     public Article WithSummary(string? summary)
     {
         Summary = summary;
