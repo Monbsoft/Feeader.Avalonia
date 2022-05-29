@@ -7,7 +7,10 @@
 	<ListBox Items="{Binding Feeds}" SelectedItem="{Binding SelectedFeed}">
 		<ListBox.ItemTemplate>
 			<DataTemplate>
+				<Grid>
 				<TextBlock Text="{Binding Name}"/>
+				</Grid>
+
 			</DataTemplate>
 		</ListBox.ItemTemplate>
 	</ListBox>

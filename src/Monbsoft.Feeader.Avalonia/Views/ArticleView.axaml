@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Monbsoft.Feeader.Avalonia.Views.ArticleView">
+	<StackPanel Spacing="5">
+		<Border CornerRadius="10" ClipToBounds="True">
+			<Image Height="140" 
+				   Source="{Binding Picture}"
+				   HorizontalAlignment="Center"
+				   VerticalAlignment="Center"/>
+		</Border>		
+		<TextBlock Classes="h1" 
+				   Text="{Binding Title}" 
+				   TextAlignment="Center"
+				   TextWrapping="Wrap"/>
+		<TextBlock MaxLines="2"
+				   Text="{Binding Summary}"
+				   TextTrimming="CharacterEllipsis"
+				   TextWrapping="Wrap" />
+	</StackPanel>
+</UserControl>

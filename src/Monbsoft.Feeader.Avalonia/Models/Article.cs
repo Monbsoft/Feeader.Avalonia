@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Monbsoft.Feeader.Avalonia.Models;
 
 public class Article
 {
-    public Article(string id, string title, DateTime date, string link)
+    public Article(string id, string title, DateTime date, Uri link)
     {
         Id = id;
         Date = date;
@@ -16,22 +15,59 @@ public class Article
         Link = link;
     }
 
+    /// <summary>
+    /// Gets the published date of the articles.
+    /// </summary>
     public DateTime Date { get; }
-    public string Description { get; private set; }
+    /// <summary>
+    /// Gets the summary of the article.
+    /// </summary>
+    public string? Summary { get; private set; }
+    /// <summary>
+    /// Gets the id of the article.
+    /// </summary>
     public string Id { get; }
-    public string Link { get; }
+    /// <summary>
+    /// Gets the picture uri of the article.
+    /// </summary>
+    public Uri? PictureUri { get; private set; }
+    /// <summary>
+    /// Gets the title of the article.
+    /// </summary>
     public string Title { get; }
+    /// <summary>
+    /// Gets the URI of the article.
+    /// </summary>
+    public Uri Link { get; }
+
+    public override bool Equals(object? obj)
+    {
+        Article? other = obj as Article;
+        if(ReferenceEquals(null, other)) 
+            return false;
+        if(ReferenceEquals (this, other))
+            return true;
+        return Link == other.Link;
+    }
+    public override int GetHashCode()
+    {
+        //return Link.GetComponents(UriComponents.Host | UriComponents.Path, UriFormat.Unescaped).GetHashCode();
+        return Id.GetHashCode();
+    }
+
 
     public override string ToString()
     {
         return Title;
     }
-
-    public Article WithDescription(string? description)
+    public Article WithPicture(Uri? picture)
     {
-        if (!string.IsNullOrEmpty(description))
-            Description = description;
-
+        PictureUri = picture;
+        return this;
+    }
+    public Article WithSummary(string? summary)
+    {
+        Summary = summary;
         return this;
     }
 }
