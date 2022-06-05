@@ -1,5 +1,6 @@
 ﻿using Monbsoft.Feeader.Avalonia.Infrastructure;
 using Monbsoft.Feeader.Avalonia.Models;
+using NLog.Fluent;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,9 +17,10 @@ namespace Monbsoft.Feeader.Avalonia.Services
 
         public static void InitializeCache()
         {
-            if(!Directory.Exists(Constants.Cache))
+            if (!Directory.Exists(Constants.Cache))
                 Directory.CreateDirectory(Constants.Cache);
         }
+
         public static async Task<List<Feed>> LoadAsync()
         {
             List<Feed>? feeds = null;
@@ -33,12 +35,14 @@ namespace Monbsoft.Feeader.Avalonia.Services
                     }
                 }
             }
-            catch(NotSupportedException)
+            catch (NotSupportedException ex)
             {
+                Log.Error(ex.Message);
                 feeds = null;
             }
             return feeds ?? new List<Feed>();
         }
+
         public static Task<Feed> GetFeedDataAsync(string url)
         {
             using (var reader = XmlReader.Create(url))
@@ -48,5 +52,22 @@ namespace Monbsoft.Feeader.Avalonia.Services
             }
         }
 
+        public static async Task SaveAsync(List<Feed> feeds)
+        {
+            try
+            {
+                if (File.Exists(s_cacheFeedFilePath))
+                    File.Delete(s_cacheFeedFilePath);
+
+                using (var stream = File.OpenWrite(s_cacheFeedFilePath))
+                {
+                    await JsonSerializer.SerializeAsync(stream, feeds);
+                }
+            }
+            catch (NotSupportedException ex)
+            {
+                Log.Error(ex.Message);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Monbsoft.Feeader.Avalonia.Models
 {
@@ -9,11 +10,12 @@ namespace Monbsoft.Feeader.Avalonia.Models
         {          
         }
 
-        public Feed(string name, string link, DateTime date)
+        [JsonConstructor]
+        public Feed(string name, string link, DateTime creationDate)
         {
             Name = name;
             Link = link;
-            CreationDate = date;
+            CreationDate = creationDate;
         }
 
         public DateTime CreationDate { get; }
