@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="355" d:DesignHeight="200"
+        x:Class="Monbsoft.Feeader.Avalonia.Views.AddFeedWindow"
+        Title="Add feed">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<TextBox Margin="5" Text="{Binding Url}" 
+				 Watermark="Url"/>
+		<TextBox Grid.Row="1" 
+				 Margin="5"
+				 Text="{Binding Name}"
+				 Watermark="Name"/>
+		<Button Command="{Binding AddCommand}" 
+				Grid.Row="3" 
+				HorizontalAlignment="Center">
+			Add
+		</Button>
+	</Grid>
+</Window>

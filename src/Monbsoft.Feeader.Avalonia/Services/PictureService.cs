@@ -21,7 +21,7 @@ namespace Monbsoft.Feeader.Avalonia.Services
         public static async Task<Bitmap?> LoadPictureBitmapAsync(Uri pictureUri, CancellationToken cancellationToken)
         {
             Bitmap? picture = null;
-            picture = await LoadCacheAsync(GetCacheFileName(pictureUri), cancellationToken);
+            picture = await LoadCacheAsync(pictureUri, cancellationToken);
             if (picture == null)
             {
                 picture = await LoadOnlineAsync(pictureUri, cancellationToken);
@@ -46,13 +46,13 @@ namespace Monbsoft.Feeader.Avalonia.Services
         }       
         private static string GetCacheFileName(Uri uri)
         {
-            return CreateHash64(uri.ToString()).ToString();
+            return $"{CreateHash64(uri.ToString()).ToString()}.bmp";
         } 
-        private static Task<Bitmap?> LoadCacheAsync(string filename, CancellationToken cancellationToken)
+        private static Task<Bitmap?> LoadCacheAsync(Uri pictureUri, CancellationToken cancellationToken)
         {
             return Task.Run(() =>
             {
-                var file = new FileInfo(Path.Combine(s_cachePictureFolderPath, filename));
+                var file = new FileInfo(Path.Combine(s_cachePictureFolderPath, GetCacheFileName(pictureUri)));
                 if (file.Exists)
                 {
                     using (var stream = file.OpenRead())
@@ -84,17 +84,11 @@ namespace Monbsoft.Feeader.Avalonia.Services
                 return null;
             });
         }
-        private static string GetFileName(Uri pictureUri)
-        {
-            string test = pictureUri.ToString();
-            int hashcode = pictureUri.GetHashCode();
-            return pictureUri.ToString().GetHashCode(StringComparison.InvariantCultureIgnoreCase) + ".bmp";
-        }
         private static Task SaveAsync(Uri pictureUri, Bitmap picture, CancellationToken cancellationToken)
         {
             return Task.Run(() =>
             {              
-                using (var fs = File.OpenWrite(Path.Combine(s_cachePictureFolderPath, GetFileName(pictureUri))))
+                using (var fs = File.OpenWrite(Path.Combine(s_cachePictureFolderPath, GetCacheFileName(pictureUri))))
                 {
                     picture.Save(fs);
                 };
