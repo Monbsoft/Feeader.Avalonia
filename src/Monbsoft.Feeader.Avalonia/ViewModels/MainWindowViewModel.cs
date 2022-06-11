@@ -76,7 +76,8 @@ public class MainWindowViewModel : ViewModelBase
     private async void LoadArticles(Feed feed)
     {
         _cancellationTokenSource?.Cancel();
-        _cancellationTokenSource = new CancellationTokenSource();        
+        _cancellationTokenSource = new CancellationTokenSource();
+        Articles.Clear();
         foreach(var article in await ArticleService.LoadAsync(feed, _cancellationTokenSource.Token))
         {
             Articles.Add(new ArticleViewModel(article));

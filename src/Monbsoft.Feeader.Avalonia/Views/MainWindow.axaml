@@ -16,14 +16,22 @@
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
-			<ColumnDefinition Width="2*"/>
+			<ColumnDefinition Width="2*" />
 			<ColumnDefinition Width="3*" />
 		</Grid.ColumnDefinitions>
 		<views:NavMenuView />
-		<ListBox Grid.Column="1"
-				 Items="{Binding Articles}"
-				 SelectedItem="{Binding SelectedArticle}">
-		</ListBox>
-		<webview:WebView Address="{Binding SelectedArticle.Link}" Grid.Column="2"/>
+		<Grid Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<TextBlock Text="Articles" 
+					   TextAlignment="Center" />
+			<ListBox Grid.Row="1"
+					 Items="{Binding Articles}"
+					 SelectedItem="{Binding SelectedArticle}">
+			</ListBox>
+		</Grid>
+		<webview:WebView Address="{Binding SelectedArticle.Link}" Grid.Column="2" />
 	</Grid>
 </Window>
