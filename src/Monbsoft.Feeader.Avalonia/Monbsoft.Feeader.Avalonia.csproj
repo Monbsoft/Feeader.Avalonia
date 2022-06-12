@@ -29,4 +29,9 @@
     <PackageReference Include="WebViewControl-Avalonia" Version="2.91.25" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\ChangeFeedView.axaml.cs">
+      <DependentUpon>ChangeFeedView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

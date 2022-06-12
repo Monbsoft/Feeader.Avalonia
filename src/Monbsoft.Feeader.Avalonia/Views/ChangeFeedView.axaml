@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Monbsoft.Feeader.Avalonia.Views.AddFeedView">
+	<Grid MinHeight="200">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="200" />
+		</Grid.RowDefinitions>
+		<TextBlock Classes="h1"
+				   Margin="5"
+				   Text="Feeds" />
+		<TextBox Grid.Row="1" Margin="5" Text="{Binding Url}"
+				 Watermark="Url" />
+		<TextBox Grid.Row="2"
+				 Margin="5"
+				 Text="{Binding Name}"
+				 Watermark="Name" />
+		<Button Command="{Binding AddCommand}"
+				Grid.Row="3"
+				HorizontalAlignment="Center">
+			Add
+		</Button>
+		<ListBox Grid.Row="4"
+				 Items="{Binding Feeds}"
+				 SelectedItem="{Binding SelectedFeed}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}"/>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</Grid>
+</UserControl>

@@ -2,14 +2,12 @@ using Monbsoft.Feeader.Avalonia.Models;
 using Monbsoft.Feeader.Avalonia.Services;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Monbsoft.Feeader.Avalonia.ViewModels;
@@ -23,13 +21,12 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
 
-        ShowDialog = new Interaction<AddFeedViewModel, Feed?>();
+        ShowDialog = new Interaction<SettingsWindowViewModel, MainWindowViewModel>();
 
-        AddFeedCommand = ReactiveCommand.CreateFromTask(async () =>
+        ShowSettingsCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            var store = new AddFeedViewModel();
+            var store = new SettingsWindowViewModel(new FeedContext(Feeds));
             var feed = await ShowDialog.Handle(store);
-            AddFeed(feed);
         });
 
         this.WhenAnyValue(x => x.SelectedFeed)
@@ -39,7 +36,7 @@ public class MainWindowViewModel : ViewModelBase
         RxApp.MainThreadScheduler.Schedule(LoadFeedsAsync);
     }
 
-    public ICommand AddFeedCommand { get; }
+    public ICommand ShowSettingsCommand { get; }
     public ObservableCollection<ArticleViewModel> Articles { get; } = new ();
     public ObservableCollection<Feed> Feeds { get; } = new();
     public Feed? SelectedFeed
@@ -52,8 +49,8 @@ public class MainWindowViewModel : ViewModelBase
         get => _selectedArticle;
         set => this.RaiseAndSetIfChanged(ref _selectedArticle, value);
     }
-    public Interaction<AddFeedViewModel, Feed?> ShowDialog { get; }
-
+    public Interaction<SettingsWindowViewModel, MainWindowViewModel> ShowDialog { get; }
+    
     public async void LoadFeedsAsync()
     {
         FeedService.InitializeCache();
@@ -72,6 +69,7 @@ public class MainWindowViewModel : ViewModelBase
             return;
         Feeds.Add(feed);
         await FeedService.SaveAsync(Feeds.ToList());
+        Debug.WriteLine($"Feed {feed?.Name} added");
     }
     private async void LoadArticles(Feed feed)
     {

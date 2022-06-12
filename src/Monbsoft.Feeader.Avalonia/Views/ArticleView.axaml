@@ -4,27 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Monbsoft.Feeader.Avalonia.Views.ArticleView">
-	<UserControl.Resources>
-		<SolidColorBrush x:Key="ImageBackground" Color="Black" Opacity="0.8"/>
-	</UserControl.Resources>
-	<Grid>
-		
+	<StackPanel Background="{DynamicResource ImageBackground}"
+				VerticalAlignment="Bottom">
 		<Image Source="{Binding Picture}"
-			   Stretch="Fill"
-			   VerticalAlignment="Center" />
-		<StackPanel Background="{DynamicResource ImageBackground}" 
-					VerticalAlignment="Bottom">
-			<TextBlock Classes="h1"
-					   Foreground="White"
-					   Text="{Binding Title}"
-					   TextAlignment="Center"
-					   TextWrapping="Wrap" />
-			<TextBlock Foreground="White"
-					   Margin="10,0"
-					   MaxLines="2"
-					   Text="{Binding Summary}"
-					   TextTrimming="CharacterEllipsis"
-					   TextWrapping="Wrap" />
-		</StackPanel>
-	</Grid>
+			   HorizontalAlignment="Stretch"
+			   MaxHeight="300"/>
+		<TextBlock Classes="h1"
+				   Margin="0,0,0,10"
+				   Text="{Binding Title}"
+				   TextAlignment="Center"
+				   TextWrapping="Wrap" />
+		<TextBlock Margin="10,0"
+				   MaxLines="2"
+				   Text="{Binding Summary}"
+				   TextTrimming="CharacterEllipsis"
+				   TextWrapping="Wrap" />
+	</StackPanel>
 </UserControl>

@@ -12,23 +12,22 @@ namespace Monbsoft.Feeader.Avalonia.Views
     {
         public MainWindow()
         {
-            InitializeComponent();
-            this.WhenActivated(d => d(ViewModel!.ShowDialog.RegisterHandler(DoShowDialogAsync)));
+            InitializeComponent();         
+            this.WhenActivated(d => d(ViewModel!.ShowDialog.RegisterHandler(DoSettingsAsync)));
         }
 
-        private async Task DoShowDialogAsync(InteractionContext<AddFeedViewModel, Feed> interaction) 
+        private async Task DoSettingsAsync(InteractionContext<SettingsWindowViewModel, MainWindowViewModel> interaction)
         {
-            var dialog = new AddFeedWindow();
+            var dialog = new SettingsWindow();
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             dialog.DataContext = interaction.Input;
-            dialog.Height = 200;
-            dialog.Width = 355;
+            dialog.Height = 450;
+            dialog.Width = 850;
 
-            var result = await dialog.ShowDialog<Feed?>(this);
+            var result = await dialog.ShowDialog<MainWindowViewModel>(this);
             interaction.SetOutput(result);
-            
-        }
 
+        }
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);

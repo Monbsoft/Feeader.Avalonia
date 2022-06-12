@@ -17,9 +17,9 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
 			<ColumnDefinition Width="2*" />
-			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="4*" />
 		</Grid.ColumnDefinitions>
-		<views:NavMenuView />
+		<views:FeedListView />
 		<Grid Grid.Column="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>

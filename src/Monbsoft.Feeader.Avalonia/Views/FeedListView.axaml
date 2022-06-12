@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Monbsoft.Feeader.Avalonia.Views.NavMenuView">
+             x:Class="Monbsoft.Feeader.Avalonia.Views.FeedListView">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
@@ -19,11 +19,11 @@
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-		<Button Command="{Binding AddFeedCommand}" 
+		<Button Command="{Binding ShowSettingsCommand}"
 				Grid.Row="1"
 				HorizontalAlignment="Stretch"
 				HorizontalContentAlignment="Center"
 				Padding="5,10"
-				>Add feed</Button>
+				>Settings</Button>
 	</Grid>
 </UserControl>

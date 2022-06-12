@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Monbsoft.Feeader.Avalonia.Views
 {
-    public partial class NavMenuView : UserControl
+    public partial class FeedListView : UserControl
     {
-        public NavMenuView()
+        public FeedListView()
         {
             InitializeComponent();
         }

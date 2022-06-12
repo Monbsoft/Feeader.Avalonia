@@ -11,8 +11,9 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
 {
     public class ArticleViewModel : ViewModelBase
     {
-        private Uri? _pictureUri;
         private Bitmap? _picture;
+        private Uri? _pictureUri;
+        private Feed? _selectedFeed;
 
         public ArticleViewModel(Article article)
         {
@@ -54,7 +55,7 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
             if (_pictureUri != null)
             {
                 Picture = await PictureService.LoadPictureBitmapAsync(_pictureUri, cancellationToken);
-            }
+            }            
         }
     }
 }
