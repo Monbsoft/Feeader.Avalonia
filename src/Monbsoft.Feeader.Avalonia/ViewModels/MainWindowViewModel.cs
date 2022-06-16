@@ -2,14 +2,12 @@ using Monbsoft.Feeader.Avalonia.Models;
 using Monbsoft.Feeader.Avalonia.Services;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Monbsoft.Feeader.Avalonia.ViewModels;
@@ -22,71 +20,78 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
+        ShowDialog = new Interaction<SettingsWindowViewModel, SettingsContext>();
 
-        ShowDialog = new Interaction<AddFeedViewModel, Feed?>();
-
-        AddFeedCommand = ReactiveCommand.CreateFromTask(async () =>
+        ShowSettingsCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            var store = new AddFeedViewModel();
-            var feed = await ShowDialog.Handle(store);
-            AddFeed(feed);
+            var store = new SettingsWindowViewModel(new SettingsContext(Feeds));
+            var context = await ShowDialog.Handle(store);
+            await FeedService.SaveAsync(context.Feeds.ToList());
+            LoadFeedsAsync();
         });
 
         this.WhenAnyValue(x => x.SelectedFeed)
-            .WhereNotNull()
             .Subscribe(LoadArticles);
+
+        FeedService.InitializeCache();
+        PictureService.InitializePictureCache();
 
         RxApp.MainThreadScheduler.Schedule(LoadFeedsAsync);
     }
 
-    public ICommand AddFeedCommand { get; }
-    public ObservableCollection<ArticleViewModel> Articles { get; } = new ();
+    public ICommand ShowSettingsCommand { get; }
+    public ObservableCollection<ArticleViewModel> Articles { get; } = new();
     public ObservableCollection<Feed> Feeds { get; } = new();
+
     public Feed? SelectedFeed
     {
         get => _selectedFeed;
         set => this.RaiseAndSetIfChanged(ref _selectedFeed, value);
     }
+
     public ArticleViewModel? SelectedArticle
     {
         get => _selectedArticle;
         set => this.RaiseAndSetIfChanged(ref _selectedArticle, value);
     }
-    public Interaction<AddFeedViewModel, Feed?> ShowDialog { get; }
+
+    public Interaction<SettingsWindowViewModel, SettingsContext> ShowDialog { get; }
 
     public async void LoadFeedsAsync()
     {
-        FeedService.InitializeCache();
-        PictureService.InitializePictureCache();
-        var feeds = await FeedService.LoadAsync();      
+        var feeds = await FeedService.LoadAsync();
 
-        foreach(var feed in feeds)
+        SelectedFeed = null;
+        Feeds.Clear();
+
+        foreach (var feed in feeds)
         {
             Feeds.Add(feed);
         }
         Trace.TraceInformation("{0} feeds loaded", Feeds.Count);
     }
-    private async void AddFeed(Feed? feed)
+
+    private async void LoadArticles(Feed? feed)
     {
-        if (feed == null)
-            return;
-        Feeds.Add(feed);
-        await FeedService.SaveAsync(Feeds.ToList());
-    }
-    private async void LoadArticles(Feed feed)
-    {
+        Articles.Clear();
+
         _cancellationTokenSource?.Cancel();
-        _cancellationTokenSource = new CancellationTokenSource();        
-        foreach(var article in await ArticleService.LoadAsync(feed, _cancellationTokenSource.Token))
+        _cancellationTokenSource = new CancellationTokenSource();
+
+        if (feed != null)
         {
-            Articles.Add(new ArticleViewModel(article));
-        }
-        if (!_cancellationTokenSource.IsCancellationRequested)
-        {
-            LoadPictures(_cancellationTokenSource.Token);
+            foreach (var article in await ArticleService.LoadAsync(feed, _cancellationTokenSource.Token))
+            {
+                Articles.Add(new ArticleViewModel(article));
+            }
+            if (!_cancellationTokenSource.IsCancellationRequested)
+            {
+                LoadPictures(_cancellationTokenSource.Token);
+            }
         }
         Trace.TraceInformation("{0} articles loaded", Articles.Count);
     }
+
     private async void LoadPictures(CancellationToken cancellationToken)
     {
         foreach (var article in Articles)
@@ -96,7 +101,7 @@ public class MainWindowViewModel : ViewModelBase
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
-            }            
+            }
         }
         Trace.TraceInformation("Pictures loaded");
     }

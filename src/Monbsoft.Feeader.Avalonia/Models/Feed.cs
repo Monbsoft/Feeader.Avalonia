@@ -20,7 +20,27 @@ namespace Monbsoft.Feeader.Avalonia.Models
 
         public DateTime CreationDate { get; }
         public string Link { get; set; }
-        public string Name { get; }
+        public string Name { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            Feed? other = obj as Feed;  
+            
+            if (ReferenceEquals(null, other))
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
+            return string.Equals(Name, other.Name) && string.Equals(Link, other.Link);
+
+        }
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() ^ Link.GetHashCode();
+        }
+        override public string ToString()
+        {
+            return Name;
+        }
 
     }
 }
