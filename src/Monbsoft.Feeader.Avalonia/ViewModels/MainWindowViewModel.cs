@@ -20,72 +20,78 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-
         ShowDialog = new Interaction<SettingsWindowViewModel, SettingsContext>();
 
         ShowSettingsCommand = ReactiveCommand.CreateFromTask(async () =>
         {
             var store = new SettingsWindowViewModel(new SettingsContext(Feeds));
-            var feed = await ShowDialog.Handle(store);
+            var context = await ShowDialog.Handle(store);
+            await FeedService.SaveAsync(context.Feeds.ToList());
+            LoadFeedsAsync();
         });
 
         this.WhenAnyValue(x => x.SelectedFeed)
-            .WhereNotNull()
             .Subscribe(LoadArticles);
+
+        FeedService.InitializeCache();
+        PictureService.InitializePictureCache();
 
         RxApp.MainThreadScheduler.Schedule(LoadFeedsAsync);
     }
 
     public ICommand ShowSettingsCommand { get; }
-    public ObservableCollection<ArticleViewModel> Articles { get; } = new ();
+    public ObservableCollection<ArticleViewModel> Articles { get; } = new();
     public ObservableCollection<Feed> Feeds { get; } = new();
+
     public Feed? SelectedFeed
     {
         get => _selectedFeed;
         set => this.RaiseAndSetIfChanged(ref _selectedFeed, value);
     }
+
     public ArticleViewModel? SelectedArticle
     {
         get => _selectedArticle;
         set => this.RaiseAndSetIfChanged(ref _selectedArticle, value);
     }
-    public Interaction<SettingsWindowViewModel,SettingsContext> ShowDialog { get; }
-    
+
+    public Interaction<SettingsWindowViewModel, SettingsContext> ShowDialog { get; }
+
     public async void LoadFeedsAsync()
     {
-        FeedService.InitializeCache();
-        PictureService.InitializePictureCache();
-        var feeds = await FeedService.LoadAsync();      
+        var feeds = await FeedService.LoadAsync();
 
-        foreach(var feed in feeds)
+        SelectedFeed = null;
+        Feeds.Clear();
+
+        foreach (var feed in feeds)
         {
             Feeds.Add(feed);
         }
         Trace.TraceInformation("{0} feeds loaded", Feeds.Count);
     }
-    private async void AddFeed(Feed? feed)
+
+    private async void LoadArticles(Feed? feed)
     {
-        if (feed == null)
-            return;
-        Feeds.Add(feed);
-        await FeedService.SaveAsync(Feeds.ToList());
-        Debug.WriteLine($"Feed {feed?.Name} added");
-    }
-    private async void LoadArticles(Feed feed)
-    {
+        Articles.Clear();
+
         _cancellationTokenSource?.Cancel();
         _cancellationTokenSource = new CancellationTokenSource();
-        Articles.Clear();
-        foreach(var article in await ArticleService.LoadAsync(feed, _cancellationTokenSource.Token))
+
+        if (feed != null)
         {
-            Articles.Add(new ArticleViewModel(article));
-        }
-        if (!_cancellationTokenSource.IsCancellationRequested)
-        {
-            LoadPictures(_cancellationTokenSource.Token);
+            foreach (var article in await ArticleService.LoadAsync(feed, _cancellationTokenSource.Token))
+            {
+                Articles.Add(new ArticleViewModel(article));
+            }
+            if (!_cancellationTokenSource.IsCancellationRequested)
+            {
+                LoadPictures(_cancellationTokenSource.Token);
+            }
         }
         Trace.TraceInformation("{0} articles loaded", Articles.Count);
     }
+
     private async void LoadPictures(CancellationToken cancellationToken)
     {
         foreach (var article in Articles)
@@ -95,7 +101,7 @@ public class MainWindowViewModel : ViewModelBase
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
-            }            
+            }
         }
         Trace.TraceInformation("Pictures loaded");
     }

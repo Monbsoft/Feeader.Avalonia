@@ -7,7 +7,7 @@
 	<Grid MinHeight="200">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
@@ -19,14 +19,37 @@
 				<ColumnDefinition/>
 				<ColumnDefinition Width="Auto"/>
 			</Grid.ColumnDefinitions>
-			<ListBox Items="{Binding Feeds}">
-				
+			<ListBox Items="{Binding Feeds}" SelectedItem="{Binding SelectedFeed}">				
 			</ListBox>
 			<StackPanel Grid.Column="1" HorizontalAlignment="Center">
 				<Button Command="{Binding AddCommand}" 
 						Width="100">Add</Button>
-				<Button Width="100">Remove</Button>
+				<Button Command="{Binding RemoveCommand}" 
+						Width="100">Remove</Button>
 			</StackPanel>
+		</Grid>
+		<Grid  Grid.Row="2"
+			   Margin="0,20">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<TextBlock Margin="0,0,5,0" 
+					   Text="Url:"
+					   TextAlignment="Right"/>
+			<TextBox Grid.Column="1" 
+					 Text="{Binding SelectedFeed.Link}"/>
+			<TextBlock Grid.Row="1" 
+					   Margin="0,0,5,0" 
+					   Text="Name:"
+					   TextAlignment="Right"/>
+			<TextBox Grid.Column="1"
+					 Grid.Row="1" 
+					 Text="{Binding SelectedFeed.Name}"/>
 		</Grid>
 	</Grid>
 </UserControl>
