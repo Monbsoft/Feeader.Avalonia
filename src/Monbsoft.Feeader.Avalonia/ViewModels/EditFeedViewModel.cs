@@ -10,15 +10,11 @@ using System.Reactive.Linq;
 
 namespace Monbsoft.Feeader.Avalonia.ViewModels
 {
-    public class ChangeFeedViewModel : ViewModelBase
+    public class EditFeedViewModel : ViewModelBase
     {
-        private FeedContext _context;
         private string _name;
         private string _url;
-        private Feed? _selectedFeed;
-        private FeedState _state;
-
-        public ChangeFeedViewModel(FeedContext context)
+        public EditFeedViewModel(SettingsContext context)
         {
             this.WhenAnyValue(x => x.Url)
                 .Where(x => !string.IsNullOrWhiteSpace(x))
@@ -26,27 +22,11 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(DoSearch);
 
-            this.WhenAnyValue(x => x.SelectedFeed)
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(f =>
-                {
-                    Name = f?.Name;
-                    Url = f?.Link;
-                    _state = f != null ? FeedState.Change : FeedState.Add;
-                });
-
             Feeds = new ObservableCollection<Feed>(context.Feeds);
-            _state = FeedState.Add;
-            _context = context;
-            
+
             AddCommand = ReactiveCommand.Create(() =>
             {
-                if(_state == FeedState.Change && _selectedFeed != null)
-                {
-                    _context.Feeds.Remove(_selectedFeed);
-                }
-                _context.Feeds.Add(new Feed(Name!, Url!));
-                return _context;
+                Feeds.Add(new Feed("name", "https://feed.com"));
             });
 
         }
@@ -54,10 +34,7 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
         /// <summary>
         /// A
         /// </summary>
-        public ReactiveCommand<Unit, FeedContext> AddCommand { get; }
-        /// <summary>
-        /// Gets the feeds
-        /// </summary>
+        public ReactiveCommand<Unit, Unit> AddCommand { get; }
         public ObservableCollection<Feed> Feeds { get; }
         /// <summary>
         /// Gets the name of the feed
@@ -66,14 +43,6 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
         {
             get => _name;
             set => this.RaiseAndSetIfChanged(ref _name, value);
-        }
-        /// <summary>
-        /// Gets or sets the selected feed
-        /// </summary>
-        public Feed? SelectedFeed
-        {
-            get => _selectedFeed;
-            set => this.RaiseAndSetIfChanged(ref _selectedFeed, value);
         }
         /// <summary>
         /// Gets the url of the feed
@@ -98,13 +67,6 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
             {
                 Log.Error(ex.Message);
             }
-        } 
-        
-        enum FeedState
-        {
-            Add = 0,
-            Change = 1
-        }
-        
+        }        
     }
 }

@@ -21,11 +21,11 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
 
-        ShowDialog = new Interaction<SettingsWindowViewModel, MainWindowViewModel>();
+        ShowDialog = new Interaction<SettingsWindowViewModel, SettingsContext>();
 
         ShowSettingsCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            var store = new SettingsWindowViewModel(new FeedContext(Feeds));
+            var store = new SettingsWindowViewModel(new SettingsContext(Feeds));
             var feed = await ShowDialog.Handle(store);
         });
 
@@ -49,7 +49,7 @@ public class MainWindowViewModel : ViewModelBase
         get => _selectedArticle;
         set => this.RaiseAndSetIfChanged(ref _selectedArticle, value);
     }
-    public Interaction<SettingsWindowViewModel, MainWindowViewModel> ShowDialog { get; }
+    public Interaction<SettingsWindowViewModel,SettingsContext> ShowDialog { get; }
     
     public async void LoadFeedsAsync()
     {

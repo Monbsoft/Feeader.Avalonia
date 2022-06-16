@@ -13,7 +13,6 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
     {
         private Bitmap? _picture;
         private Uri? _pictureUri;
-        private Feed? _selectedFeed;
 
         public ArticleViewModel(Article article)
         {

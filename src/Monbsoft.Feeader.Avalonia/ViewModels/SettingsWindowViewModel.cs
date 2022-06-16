@@ -10,13 +10,17 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
 {
     public class SettingsWindowViewModel : ViewModelBase
     {
-        private readonly FeedContext _feedContext;
 
-        public SettingsWindowViewModel(FeedContext context)
+        public SettingsWindowViewModel(SettingsContext context)
         {
-            ChangeFeedViewModel = new ChangeFeedViewModel(context);
+            EditFeedViewModel = new EditFeedViewModel(context);
         }
 
-        public ChangeFeedViewModel ChangeFeedViewModel { get; }
+        public EditFeedViewModel EditFeedViewModel { get; }
+
+        public SettingsContext CreateContext()
+        {
+            return new SettingsContext(EditFeedViewModel.Feeds);
+        }
     }
 }

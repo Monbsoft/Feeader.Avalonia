@@ -4,6 +4,7 @@ using Avalonia.ReactiveUI;
 using Monbsoft.Feeader.Avalonia.Models;
 using Monbsoft.Feeader.Avalonia.ViewModels;
 using ReactiveUI;
+using System.Reactive;
 using System.Threading.Tasks;
 
 namespace Monbsoft.Feeader.Avalonia.Views
@@ -16,16 +17,17 @@ namespace Monbsoft.Feeader.Avalonia.Views
             this.WhenActivated(d => d(ViewModel!.ShowDialog.RegisterHandler(DoSettingsAsync)));
         }
 
-        private async Task DoSettingsAsync(InteractionContext<SettingsWindowViewModel, MainWindowViewModel> interaction)
+        private async Task DoSettingsAsync(InteractionContext<SettingsWindowViewModel, SettingsContext> interaction)
         {
             var dialog = new SettingsWindow();
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             dialog.DataContext = interaction.Input;
             dialog.Height = 450;
             dialog.Width = 850;
-
-            var result = await dialog.ShowDialog<MainWindowViewModel>(this);
-            interaction.SetOutput(result);
+            
+            await dialog.ShowDialog(this);
+            
+            interaction.SetOutput(dialog.ViewModel?.CreateContext() ?? new SettingsContext());
 
         }
         private void InitializeComponent()

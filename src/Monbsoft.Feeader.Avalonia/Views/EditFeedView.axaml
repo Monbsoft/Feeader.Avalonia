@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Monbsoft.Feeader.Avalonia.Views.EditFeedView">
+	<Grid MinHeight="200">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<TextBlock Classes="h1"
+				   Margin="5"
+				   Text="Feeds:" />
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			<ListBox Items="{Binding Feeds}">
+				
+			</ListBox>
+			<StackPanel Grid.Column="1" HorizontalAlignment="Center">
+				<Button Command="{Binding AddCommand}" 
+						Width="100">Add</Button>
+				<Button Width="100">Remove</Button>
+			</StackPanel>
+		</Grid>
+	</Grid>
+</UserControl>

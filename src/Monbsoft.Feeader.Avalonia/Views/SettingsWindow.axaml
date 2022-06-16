@@ -7,6 +7,7 @@
         x:Class="Monbsoft.Feeader.Avalonia.Views.SettingsWindow"
         Title="Settings">
 	<StackPanel>
-		<views:AddFeedView DataContext="{Binding ChangeFeedViewModel}"/>
+		<views:EditFeedView DataContext="{Binding EditFeedViewModel}"/>
+		<Separator/>
 	</StackPanel>
 </Window>
