@@ -17,30 +17,31 @@ public class MainWindowViewModel : ViewModelBase
     private CancellationTokenSource? _cancellationTokenSource;
     private Feed? _selectedFeed;
     private ArticleViewModel? _selectedArticle;
+    
 
     public MainWindowViewModel()
     {
-        ShowDialog = new Interaction<SettingsWindowViewModel, SettingsContext>();
+        ShowDialog = new Interaction<SettingsWindowViewModel, Workspace>();
 
         ShowSettingsCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            var store = new SettingsWindowViewModel(new SettingsContext(Feeds));
-            var context = await ShowDialog.Handle(store);
-            await FeedService.SaveAsync(context.Feeds.ToList());
-            LoadFeedsAsync();
+            var store = new SettingsWindowViewModel(new Workspace(Categories.ToList(), Feeds.ToList()));
+            var result = await ShowDialog.Handle(store);
+            await WorkspaceService.SaveAsync(result);
+            LoadWorkspaceAsync();
         });
 
         this.WhenAnyValue(x => x.SelectedFeed)
             .Subscribe(LoadArticles);
 
-        FeedService.InitializeCache();
         PictureService.InitializePictureCache();
 
-        RxApp.MainThreadScheduler.Schedule(LoadFeedsAsync);
+        RxApp.MainThreadScheduler.Schedule(LoadWorkspaceAsync);
     }
 
     public ICommand ShowSettingsCommand { get; }
     public ObservableCollection<ArticleViewModel> Articles { get; } = new();
+    public ObservableCollection<Category> Categories { get; } = new();
     public ObservableCollection<Feed> Feeds { get; } = new();
 
     public Feed? SelectedFeed
@@ -55,16 +56,16 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _selectedArticle, value);
     }
 
-    public Interaction<SettingsWindowViewModel, SettingsContext> ShowDialog { get; }
+    public Interaction<SettingsWindowViewModel, Workspace> ShowDialog { get; }
 
-    public async void LoadFeedsAsync()
+    public async void LoadWorkspaceAsync()
     {
-        var feeds = await FeedService.LoadAsync();
+        var workspace = await WorkspaceService.LoadAsync();
 
         SelectedFeed = null;
         Feeds.Clear();
 
-        foreach (var feed in feeds)
+        foreach (var feed in workspace.Feeds)
         {
             Feeds.Add(feed);
         }

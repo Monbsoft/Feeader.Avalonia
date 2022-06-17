@@ -17,17 +17,17 @@ namespace Monbsoft.Feeader.Avalonia.Views
             this.WhenActivated(d => d(ViewModel!.ShowDialog.RegisterHandler(DoSettingsAsync)));
         }
 
-        private async Task DoSettingsAsync(InteractionContext<SettingsWindowViewModel, SettingsContext> interaction)
+        private async Task DoSettingsAsync(InteractionContext<SettingsWindowViewModel, Workspace> interaction)
         {
             var dialog = new SettingsWindow();
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             dialog.DataContext = interaction.Input;
-            dialog.Height = 450;
+            dialog.Height = 480;
             dialog.Width = 850;
             
             await dialog.ShowDialog(this);
             
-            interaction.SetOutput(dialog.ViewModel?.CreateContext() ?? new SettingsContext());
+            interaction.SetOutput(dialog.ViewModel?.CreateWorkspace() ?? new Workspace());
 
         }
         private void InitializeComponent()

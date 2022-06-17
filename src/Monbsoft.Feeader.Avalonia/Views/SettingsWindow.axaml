@@ -5,9 +5,11 @@
 		xmlns:views="using:Monbsoft.Feeader.Avalonia.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Monbsoft.Feeader.Avalonia.Views.SettingsWindow"
+		Padding="10"
         Title="Settings">
 	<StackPanel>
 		<views:EditFeedView DataContext="{Binding EditFeedViewModel}"/>
 		<Separator/>
+		<views:EditCategoryView DataContext="{Binding EditCategoryViewModel}"/>
 	</StackPanel>
 </Window>

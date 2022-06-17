@@ -3,6 +3,7 @@ using Monbsoft.Feeader.Avalonia.Services;
 using NLog.Fluent;
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -16,15 +17,9 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
         private string _name;
         private Feed? _selected;
         private string _url;
-        public EditFeedViewModel(SettingsContext context)
+        public EditFeedViewModel(List<Feed> feeds)
         {
-            this.WhenAnyValue(x => x.Url)
-                .Where(x => !string.IsNullOrWhiteSpace(x))
-                .Throttle(TimeSpan.FromMilliseconds(400))
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(DoSearch);
-
-            Feeds = new ObservableCollection<Feed>(context.Feeds);
+            Feeds = new ObservableCollection<Feed>(feeds);
 
             AddCommand = ReactiveCommand.Create(() =>
             {
@@ -71,22 +66,6 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
         {
             get => _url;
             set => this.RaiseAndSetIfChanged(ref _url, value);
-        }
-        
-        private async void DoSearch(string? url)
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(url))
-                {
-                    var feed = await FeedService.GetFeedDataAsync(url);
-                    Name = feed.Name;
-                }
-            }
-            catch(Exception ex)
-            {
-                Log.Error(ex.Message);
-            }
-        }        
+        }      
     }
 }

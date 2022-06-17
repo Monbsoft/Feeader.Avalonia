@@ -6,21 +6,23 @@ namespace Monbsoft.Feeader.Avalonia.Models
     public class Feed
     {
         public Feed(string name, string link)
-            : this(name, link, DateTime.UtcNow)
+            : this(name, link, DateTime.UtcNow, null)
         {          
         }
 
         [JsonConstructor]
-        public Feed(string name, string link, DateTime creationDate)
+        public Feed(string name, string link, DateTime creationDate, string? categoryId)
         {
             Name = name;
             Link = link;
             CreationDate = creationDate;
+            CategoryId = categoryId;
         }
 
         public DateTime CreationDate { get; }
         public string Link { get; set; }
         public string Name { get; set; }
+        public string? CategoryId { get; set; }
 
         public override bool Equals(object? obj)
         {

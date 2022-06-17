@@ -12,6 +12,7 @@ namespace Monbsoft.Feeader.Avalonia.Infrastructure
         public const string Cache = "cache";
         public const string FeedFileName = "feeds.json";
         public const string Pictures = "pictures";
+        public const string WorkspaceFileName = "workspace.json";
 
         public static string CachePath = Path.Combine(".", Cache);
     }
