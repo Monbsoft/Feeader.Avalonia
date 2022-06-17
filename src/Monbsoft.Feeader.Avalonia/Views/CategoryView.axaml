@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:views="using:Monbsoft.Feeader.Avalonia.Views"
+		xmlns:webview="clr-namespace:WebViewControl;assembly=WebViewControl.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Monbsoft.Feeader.Avalonia.Views.CategoryView">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="2*" />
+			<ColumnDefinition Width="4*" />
+		</Grid.ColumnDefinitions>
+		<views:FeedListView />
+		<Grid Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<TextBlock Text="Articles"
+					   TextAlignment="Center" />
+			<ListBox Grid.Row="1"
+					 Items="{Binding Articles}"
+					 SelectedItem="{Binding SelectedArticle}">
+			</ListBox>
+		</Grid>
+		<webview:WebView Address="{Binding SelectedArticle.Link}" Grid.Column="2" />
+	</Grid>
+</UserControl>

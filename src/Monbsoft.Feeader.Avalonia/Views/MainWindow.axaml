@@ -3,6 +3,7 @@
         xmlns:vm="using:Monbsoft.Feeader.Avalonia.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:material="using:Material.Icons.Avalonia"
 		xmlns:views="using:Monbsoft.Feeader.Avalonia.Views"
 		xmlns:webview="clr-namespace:WebViewControl;assembly=WebViewControl.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -13,25 +14,23 @@
 	<Design.DataContext>
 		<vm:MainWindowViewModel />
 	</Design.DataContext>
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition />
-			<ColumnDefinition Width="2*" />
-			<ColumnDefinition Width="4*" />
-		</Grid.ColumnDefinitions>
-		<views:FeedListView />
-		<Grid Grid.Column="1">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition />
-			</Grid.RowDefinitions>
-			<TextBlock Text="Articles" 
-					   TextAlignment="Center" />
-			<ListBox Grid.Row="1"
-					 Items="{Binding Articles}"
-					 SelectedItem="{Binding SelectedArticle}">
-			</ListBox>
-		</Grid>
-		<webview:WebView Address="{Binding SelectedArticle.Link}" Grid.Column="2" />
-	</Grid>
+	<DockPanel>
+		<TabStrip DockPanel.Dock="Left">
+			<TabStripItem>
+				<Border>
+					<Button Command="{Binding SettingsCommand}">
+						<material:MaterialIcon Kind="Settings"/>
+					</Button>
+				</Border>
+			</TabStripItem>
+		</TabStrip>		
+		<TabControl Grid.Row="1" 
+					Items="{Binding Categories}">
+			<TabControl.ItemTemplate>
+				<DataTemplate>
+				<TextBlock Text="{Binding Name}"/>					
+				</DataTemplate>
+			</TabControl.ItemTemplate>
+		</TabControl>
+	</DockPanel>
 </Window>

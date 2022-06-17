@@ -7,9 +7,11 @@
         x:Class="Monbsoft.Feeader.Avalonia.Views.SettingsWindow"
 		Padding="10"
         Title="Settings">
-	<StackPanel>
-		<views:EditFeedView DataContext="{Binding EditFeedViewModel}"/>
-		<Separator/>
-		<views:EditCategoryView DataContext="{Binding EditCategoryViewModel}"/>
-	</StackPanel>
+	<TabControl TabStripPlacement="Left">
+		<TabItem Header="Categories">
+			
+		</TabItem>
+		<TabItem Header="Feeds">			
+		</TabItem>
+	</TabControl>
 </Window>
