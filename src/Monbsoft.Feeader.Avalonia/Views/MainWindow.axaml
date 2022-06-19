@@ -17,18 +17,20 @@
 	<DockPanel>
 		<TabStrip DockPanel.Dock="Left">
 			<TabStripItem>
+			</TabStripItem>
+			<Grid DockPanel.Dock="Bottom">
 				<Border>
 					<Button Command="{Binding SettingsCommand}">
-						<material:MaterialIcon Kind="Settings"/>
+						<material:MaterialIcon Kind="Settings" />
 					</Button>
 				</Border>
-			</TabStripItem>
-		</TabStrip>		
-		<TabControl Grid.Row="1" 
+			</Grid>
+		</TabStrip>
+		<TabControl Grid.Row="1"
 					Items="{Binding Categories}">
 			<TabControl.ItemTemplate>
 				<DataTemplate>
-				<TextBlock Text="{Binding Name}"/>					
+					<TextBlock Text="{Binding Name}" />
 				</DataTemplate>
 			</TabControl.ItemTemplate>
 		</TabControl>

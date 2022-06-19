@@ -5,10 +5,13 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
 {
     public class SettingsWindowViewModel : ViewModelBase
     {
+        private readonly Workspace _workspace;
+        
         public SettingsWindowViewModel(Workspace workspace)
         {
             EditCategoryViewModel = new EditCategoryViewModel(workspace.Categories);
-            EditFeedViewModel = new EditFeedViewModel(workspace.Feeds);
+
+            _workspace = workspace;
         }
 
         public EditCategoryViewModel EditCategoryViewModel { get; }
@@ -16,7 +19,7 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
 
         public Workspace CreateWorkspace()
         {
-            return new Workspace(EditCategoryViewModel.Categories.ToList(), EditFeedViewModel.Feeds.ToList());
+            return new Workspace();
         }
     }
 }

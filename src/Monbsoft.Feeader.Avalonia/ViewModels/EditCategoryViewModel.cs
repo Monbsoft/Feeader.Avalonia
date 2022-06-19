@@ -4,27 +4,33 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Reactive;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reactive.Linq;
 
 namespace Monbsoft.Feeader.Avalonia.ViewModels;
 
 public class EditCategoryViewModel : ViewModelBase
 {
-
-    private string _name;
     private Category? _selected;
-    private string _url;
-    public EditCategoryViewModel(List<Category> categories)
-    {
-        Categories = new ObservableCollection<Category>(categories);
+    private string? _name;
 
+    public EditCategoryViewModel(List<Category> categories)        
+    {
+        this.WhenAnyValue(x => x.Name)            
+            .Subscribe(x =>
+            {
+                if (_selected != null && x != null)
+                    _selected.Name = x;
+                
+            });
+
+
+        Categories = new ObservableCollection<Category>(categories);
+        
         AddCommand = ReactiveCommand.Create(() =>
         {
             Categories.Add(new Category("category"));
-            Debug.WriteLine($"Category added");
+            Debug.WriteLine("Category added");
         });
         RemoveCommand = ReactiveCommand.Create(() =>
         {

@@ -7,19 +7,15 @@ namespace Monbsoft.Feeader.Avalonia.Models
     public class Category
     {
         public Category(string name)
-            : this(Guid.NewGuid().ToString(), name, new List<Feed>())
+            : this(Guid.NewGuid().ToString(), name)
         {            
-        }
-        
+        }        
         [JsonConstructor]
-        public Category(string id, string name, List<Feed> feeds)
+        public Category(string id, string name)
         {
             Id = id;
             Name = name;
-            Feeds = feeds;
         }
-
-        public List<Feed> Feeds { get;  }
         public string Id { get; }
         public string Name { get; set; }
 

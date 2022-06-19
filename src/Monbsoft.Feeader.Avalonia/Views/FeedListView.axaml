@@ -19,11 +19,5 @@
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-		<Button Command="{Binding ShowSettingsCommand}"
-				Grid.Row="1"
-				HorizontalAlignment="Stretch"
-				HorizontalContentAlignment="Center"
-				Padding="5,10"
-				>Settings</Button>
 	</Grid>
 </UserControl>

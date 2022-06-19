@@ -12,7 +12,7 @@
 			<ColumnDefinition Width="2*" />
 			<ColumnDefinition Width="4*" />
 		</Grid.ColumnDefinitions>
-		<views:FeedListView />
+		<views:FeedListView DataContext="{Binding}" />
 		<Grid Grid.Column="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
 namespace Monbsoft.Feeader.Avalonia.Models
@@ -9,8 +10,9 @@ namespace Monbsoft.Feeader.Avalonia.Models
         {
             Categories = new List<Category>();
             Feeds = new List<Feed>();
-        }
 
+        }
+        
         [JsonConstructor]
         public Workspace(List<Category> categories, List<Feed> feeds)
         {

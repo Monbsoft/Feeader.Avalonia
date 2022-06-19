@@ -15,7 +15,7 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     private CancellationTokenSource? _cancellationTokenSource;
-
+    private Workspace _workspace;
     
 
     public MainWindowViewModel()
@@ -24,14 +24,14 @@ public class MainWindowViewModel : ViewModelBase
 
         SettingsCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            //var store = new SettingsWindowViewModel(new Workspace(Categories.ToList(), Feeds.ToList()));
-            //var result = await ShowDialog.Handle(store);
+            var store = new SettingsWindowViewModel(_workspace);
+            var result = await ShowDialog.Handle(store);
             //await WorkspaceService.SaveAsync(result);
             //LoadWorkspaceAsync();
-        });
-
+        });        
 
         PictureService.InitializePictureCache();
+        Categories = new ObservableCollection<CategoryViewModel>();
 
         RxApp.MainThreadScheduler.Schedule(LoadWorkspaceAsync);
     }
@@ -40,15 +40,19 @@ public class MainWindowViewModel : ViewModelBase
 
     public ObservableCollection<CategoryViewModel> Categories { get; } = new();
 
-
+    
     public Interaction<SettingsWindowViewModel, Workspace> ShowDialog { get; }
 
     public async void LoadWorkspaceAsync()
     {
-        var workspace = await WorkspaceService.LoadAsync();
-        Categories.Add(new CategoryViewModel(new Category("test")));
-
-        //Trace.TraceInformation("{0} feeds loaded", t);
+        Debug.WriteLine("Loading workspace...");
+        _workspace = await WorkspaceService.LoadAsync();
+        Categories.Add(new CategoryViewModel(_workspace, new Category("test")));
+        foreach(var category in _workspace.Categories)
+        {
+            Categories.Add(new CategoryViewModel(_workspace, category));
+        }
+        Trace.TraceInformation("{0} feeds loaded", _workspace.Feeds.Count());
     }
 
 

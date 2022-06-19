@@ -9,7 +9,7 @@
         Title="Settings">
 	<TabControl TabStripPlacement="Left">
 		<TabItem Header="Categories">
-			
+			<views:EditCategoryView DataContext="{Binding EditCategoryViewModel}"/>
 		</TabItem>
 		<TabItem Header="Feeds">			
 		</TabItem>
