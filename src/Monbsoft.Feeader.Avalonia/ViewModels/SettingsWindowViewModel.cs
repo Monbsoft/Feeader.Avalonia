@@ -1,26 +1,26 @@
 ﻿using Monbsoft.Feeader.Avalonia.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Monbsoft.Feeader.Avalonia.ViewModels
 {
     public class SettingsWindowViewModel : ViewModelBase
     {
-
-        public SettingsWindowViewModel(SettingsContext context)
+        private readonly Workspace _workspace;
+        
+        public SettingsWindowViewModel(Workspace workspace)
         {
-            EditFeedViewModel = new EditFeedViewModel(context);
+            Category = new SettingsCategoryViewModel(workspace.Categories);
+            Feed = new SettingsFeedViewModel(workspace);
+
+            _workspace = workspace;
         }
 
-        public EditFeedViewModel EditFeedViewModel { get; }
+        public SettingsCategoryViewModel Category { get; }
+        public SettingsFeedViewModel Feed { get; }
 
-        public SettingsContext CreateContext()
+        public Workspace GetWorkspace()
         {
-            return new SettingsContext(EditFeedViewModel.Feeds);
+            return _workspace;
         }
     }
 }

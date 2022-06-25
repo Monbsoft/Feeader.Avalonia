@@ -12,5 +12,6 @@
 			<Setter Property="FontSize" Value="16" />
 			<Setter Property="FontWeight" Value="Medium" />
 		</Style>
+		<StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml"></StyleInclude>
     </Application.Styles>
 </Application>

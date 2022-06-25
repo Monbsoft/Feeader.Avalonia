@@ -1,26 +1,35 @@
-﻿using System;
+﻿using ReactiveUI;
+using System;
 using System.Text.Json.Serialization;
 
 namespace Monbsoft.Feeader.Avalonia.Models
 {
-    public class Feed
+    public class Feed : ReactiveObject
     {
+        private string _name;
+
         public Feed(string name, string link)
-            : this(name, link, DateTime.UtcNow)
+            : this(name, link, DateTime.UtcNow, null)
         {          
         }
 
         [JsonConstructor]
-        public Feed(string name, string link, DateTime creationDate)
+        public Feed(string name, string link, DateTime creationDate, string? categoryId)
         {
             Name = name;
             Link = link;
             CreationDate = creationDate;
+            CategoryId = categoryId;
         }
 
         public DateTime CreationDate { get; }
         public string Link { get; set; }
-        public string Name { get; set; }
+        public string Name 
+        {
+            get => _name;
+            set => this.RaiseAndSetIfChanged(ref _name, value);
+        }
+        public string? CategoryId { get; set; }
 
         public override bool Equals(object? obj)
         {
