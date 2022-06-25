@@ -22,7 +22,6 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
                 .Subscribe(LoadArticles);
 
             Feeds = new ObservableCollection<Feed>(workspace.Feeds.Where(f => f.CategoryId == category.Id));
-
             _category = category;
         }
 

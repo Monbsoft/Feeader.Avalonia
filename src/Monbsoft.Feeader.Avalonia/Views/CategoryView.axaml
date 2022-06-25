@@ -10,7 +10,7 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
 			<ColumnDefinition Width="2*" />
-			<ColumnDefinition Width="4*" />
+			<ColumnDefinition Width="6*" />
 		</Grid.ColumnDefinitions>
 		<views:FeedListView DataContext="{Binding}" />
 		<Grid Grid.Column="1">

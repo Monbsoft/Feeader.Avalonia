@@ -21,6 +21,11 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<ListBox Items="{Binding Feeds}" SelectedItem="{Binding Selected}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}"/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
 			</ListBox>
 			<StackPanel Grid.Column="1" HorizontalAlignment="Center">
 				<Button Command="{Binding AddCommand}"
