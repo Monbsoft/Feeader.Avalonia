@@ -9,17 +9,18 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
         
         public SettingsWindowViewModel(Workspace workspace)
         {
-            EditCategoryViewModel = new EditCategoryViewModel(workspace.Categories);
+            Category = new SettingsCategoryViewModel(workspace.Categories);
+            Feed = new SettingsFeedViewModel(workspace);
 
             _workspace = workspace;
         }
 
-        public EditCategoryViewModel EditCategoryViewModel { get; }
-        public EditFeedViewModel EditFeedViewModel { get; }
+        public SettingsCategoryViewModel Category { get; }
+        public SettingsFeedViewModel Feed { get; }
 
-        public Workspace CreateWorkspace()
+        public Workspace GetWorkspace()
         {
-            return new Workspace();
+            return _workspace;
         }
     }
 }

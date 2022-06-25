@@ -8,19 +8,18 @@ namespace Monbsoft.Feeader.Avalonia.Models
     {
         public Workspace()
         {
-            Categories = new List<Category>();
-            Feeds = new List<Feed>();
-
+            Categories = new ObservableCollection<Category>();
+            Feeds = new ObservableCollection<Feed>();
         }
         
         [JsonConstructor]
-        public Workspace(List<Category> categories, List<Feed> feeds)
+        public Workspace(ObservableCollection<Category> categories, ObservableCollection<Feed> feeds)
         {
             Categories = categories;
             Feeds = feeds;
         }   
 
-        public List<Category> Categories { get; }
-        public List<Feed> Feeds { get; }
+        public ObservableCollection<Category> Categories { get; }
+        public ObservableCollection<Feed> Feeds { get; }
     }
 }

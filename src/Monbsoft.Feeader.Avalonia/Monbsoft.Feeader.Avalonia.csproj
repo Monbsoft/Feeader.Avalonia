@@ -30,4 +30,12 @@
     <PackageReference Include="WebViewControl-Avalonia" Version="2.91.26" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\SettingsFeedView.axaml.cs">
+      <DependentUpon>SettingsFeedView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SettingsCategoryView.axaml.cs">
+      <DependentUpon>SettingsCategoryView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

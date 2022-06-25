@@ -26,16 +26,29 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
             _category = category;
         }
 
+        /// <summary>
+        /// Gets the articles
+        /// </summary>
         public ObservableCollection<ArticleViewModel> Articles { get; } = new();
+        /// <summary>
+        /// Gets the feeds
+        /// </summary>
         public ObservableCollection<Feed> Feeds { get; }
+        /// <summary>
+        /// Gets the category name
+        /// </summary>
         public string Name => _category.Name;
-
+        /// <summary>
+        /// Gets or sets the view model of the selected article
+        /// </summary>
         public ArticleViewModel? SelectedArticle
         {
             get => _selectedArticle;
             set => this.RaiseAndSetIfChanged(ref _selectedArticle, value);
         }
-
+        /// <summary>
+        /// Gets or sets the selected feed
+        /// </summary>
         public Feed? SelectedFeed
         {
             get => _selectedFeed;

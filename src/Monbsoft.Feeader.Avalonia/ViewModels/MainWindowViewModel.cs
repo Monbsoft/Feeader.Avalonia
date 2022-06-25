@@ -26,8 +26,8 @@ public class MainWindowViewModel : ViewModelBase
         {
             var store = new SettingsWindowViewModel(_workspace);
             var result = await ShowDialog.Handle(store);
-            //await WorkspaceService.SaveAsync(result);
-            //LoadWorkspaceAsync();
+            await WorkspaceService.SaveAsync(result);
+            LoadWorkspaceAsync();
         });        
 
         PictureService.InitializePictureCache();
@@ -47,6 +47,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         Debug.WriteLine("Loading workspace...");
         _workspace = await WorkspaceService.LoadAsync();
+        Categories.Clear();
         Categories.Add(new CategoryViewModel(_workspace, new Category("test")));
         foreach(var category in _workspace.Categories)
         {

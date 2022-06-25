@@ -27,7 +27,7 @@ namespace Monbsoft.Feeader.Avalonia.Views
             
             await dialog.ShowDialog(this);
             
-            interaction.SetOutput(dialog.ViewModel?.CreateWorkspace() ?? new Workspace());
+            interaction.SetOutput(dialog.ViewModel?.GetWorkspace() ?? new Workspace());
 
         }
         private void InitializeComponent()

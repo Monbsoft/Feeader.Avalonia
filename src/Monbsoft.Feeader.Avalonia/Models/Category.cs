@@ -1,11 +1,13 @@
-﻿using System;
+﻿using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Monbsoft.Feeader.Avalonia.Models
 {
-    public class Category
+    public class Category : ReactiveObject
     {
+        private string _name;
         public Category(string name)
             : this(Guid.NewGuid().ToString(), name)
         {            
@@ -17,7 +19,11 @@ namespace Monbsoft.Feeader.Avalonia.Models
             Name = name;
         }
         public string Id { get; }
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set => this.RaiseAndSetIfChanged(ref _name, value);
+        }
 
         public override string ToString()
         {

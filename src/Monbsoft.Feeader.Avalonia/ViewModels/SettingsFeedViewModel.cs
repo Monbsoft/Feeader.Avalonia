@@ -1,25 +1,30 @@
 ﻿using Monbsoft.Feeader.Avalonia.Models;
-using Monbsoft.Feeader.Avalonia.Services;
-using NLog.Fluent;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 
 namespace Monbsoft.Feeader.Avalonia.ViewModels
 {
-    public class EditFeedViewModel : ViewModelBase
+    public class SettingsFeedViewModel : ViewModelBase
     {
-        private string _name;
         private Feed? _selected;
-        private string _url;
-        public EditFeedViewModel(List<Feed> feeds)
+        private SelectedFeedViewModel _selectedFeedViewModel;
+
+        public SettingsFeedViewModel(Workspace workspace)
         {
-            Feeds = new ObservableCollection<Feed>(feeds);
+            this.WhenAnyValue(x => x.Selected)
+                .Subscribe(x =>
+                {
+                    if (_selected == null)
+                        SelectedFeed = null;
+                    else
+                        SelectedFeed = new SelectedFeedViewModel(workspace, _selected);
+                });
+            Categories = workspace.Categories;
+            Feeds = workspace.Feeds;
 
             AddCommand = ReactiveCommand.Create(() =>
             {
@@ -28,44 +33,51 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
             });
             RemoveCommand = ReactiveCommand.Create(() =>
             {
-                if(_selected != null)
+                if (_selected != null)
                 {
                     Feeds.Remove(_selected);
                     Debug.WriteLine($"Feed {_selected?.Name} removed");
                 }
             });
-
         }
 
         /// <summary>
         /// Gets the add command
         /// </summary>
         public ReactiveCommand<Unit, Unit> AddCommand { get; }
-        public ObservableCollection<Feed> Feeds { get; }
+
         /// <summary>
-        /// Gets the name of the feed
+        /// Gets thes categories
         /// </summary>
-        public string? Name
+        public ObservableCollection<Category> Categories
         {
-            get => _name;
-            set => this.RaiseAndSetIfChanged(ref _name, value);
+            get;
+            private set;
         }
+
+        /// <summary>
+        /// Gets or sets feeds
+        /// </summary>
+        public ObservableCollection<Feed> Feeds { get; }
+
+        /// <summary>
+        /// Gets the remove command
+        /// </summary>
         public ReactiveCommand<Unit, Unit> RemoveCommand { get; }
+
         /// <summary>
         /// Gets or sets the selected feed
         /// </summary>
-        public Feed SelectedFeed 
+        public Feed Selected
         {
             get => _selected;
             set => this.RaiseAndSetIfChanged(ref _selected, value);
         }
-        /// <summary>
-        /// Gets the url of the feed
-        /// </summary>
-        public string? Url
+
+        public SelectedFeedViewModel? SelectedFeed
         {
-            get => _url;
-            set => this.RaiseAndSetIfChanged(ref _url, value);
-        }      
+            get => _selectedFeedViewModel;
+            set => this.RaiseAndSetIfChanged(ref _selectedFeedViewModel, value);
+        }
     }
 }

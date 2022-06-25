@@ -9,27 +9,19 @@ using System.Reactive.Linq;
 
 namespace Monbsoft.Feeader.Avalonia.ViewModels;
 
-public class EditCategoryViewModel : ViewModelBase
+public class SettingsCategoryViewModel : ViewModelBase
 {
     private Category? _selected;
-    private string? _name;
 
-    public EditCategoryViewModel(List<Category> categories)        
+    public SettingsCategoryViewModel(ObservableCollection<Category> categories)        
     {
-        this.WhenAnyValue(x => x.Name)            
-            .Subscribe(x =>
-            {
-                if (_selected != null && x != null)
-                    _selected.Name = x;
-                
-            });
-
-
-        Categories = new ObservableCollection<Category>(categories);
+        Categories = categories;
         
         AddCommand = ReactiveCommand.Create(() =>
         {
-            Categories.Add(new Category("category"));
+            var category = new Category("category");
+            Categories.Add(category);
+
             Debug.WriteLine("Category added");
         });
         RemoveCommand = ReactiveCommand.Create(() =>
@@ -37,7 +29,7 @@ public class EditCategoryViewModel : ViewModelBase
             if (_selected != null)
             {
                 Categories.Remove(_selected);
-                Debug.WriteLine($"Feed {_selected?.Name} removed");
+                Debug.WriteLine($"Category {_selected?.Name} removed");
             }
         });
     }
@@ -46,20 +38,18 @@ public class EditCategoryViewModel : ViewModelBase
     /// Gets the add command
     /// </summary>
     public ReactiveCommand<Unit, Unit> AddCommand { get; }
+    /// <summary>
+    /// Gets the categories
+    /// </summary>
     public ObservableCollection<Category> Categories { get; }
     /// <summary>
-    /// Gets the name of the category
+    /// Gets the remove command
     /// </summary>
-    public string? Name
-    {
-        get => _name;
-        set => this.RaiseAndSetIfChanged(ref _name, value);
-    }
     public ReactiveCommand<Unit, Unit> RemoveCommand { get; }
     /// <summary>
     /// Gets or sets the selected category
     /// </summary>
-    public Category SelectedCategory
+    public Category Selected
     {
         get => _selected;
         set => this.RaiseAndSetIfChanged(ref _selected, value);

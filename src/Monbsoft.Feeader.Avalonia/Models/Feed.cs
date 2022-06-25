@@ -6,6 +6,8 @@ namespace Monbsoft.Feeader.Avalonia.Models
 {
     public class Feed : ReactiveObject
     {
+        private string _name;
+
         public Feed(string name, string link)
             : this(name, link, DateTime.UtcNow, null)
         {          
@@ -22,7 +24,11 @@ namespace Monbsoft.Feeader.Avalonia.Models
 
         public DateTime CreationDate { get; }
         public string Link { get; set; }
-        public string Name { get; set; }
+        public string Name 
+        {
+            get => _name;
+            set => this.RaiseAndSetIfChanged(ref _name, value);
+        }
         public string? CategoryId { get; set; }
 
         public override bool Equals(object? obj)

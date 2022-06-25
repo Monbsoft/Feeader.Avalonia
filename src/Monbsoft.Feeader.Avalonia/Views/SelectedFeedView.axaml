@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Monbsoft.Feeader.Avalonia.Views.SelectedFeedView">
+	<Grid Margin="0,20">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<TextBlock Text="Url:"
+				   TextAlignment="Right"
+				   VerticalAlignment="Center" />
+		<TextBox Grid.Column="1"
+				 Margin="0,10"
+				 Text="{Binding Feed.Link}" />
+		<TextBlock Grid.Row="1"
+				   Text="Name:"
+				   TextAlignment="Right"
+				   VerticalAlignment="Center" />
+		<TextBox Grid.Column="1"
+				 Grid.Row="1"
+				 Margin="0,10"
+				 Text="{Binding Feed.Name}" />
+		<TextBlock Grid.Row="2"
+				   Text="Category:"
+				   TextAlignment="Right"
+				   VerticalAlignment="Center" />
+		<ComboBox Grid.Column="1"
+				  Grid.Row="2"
+				  Items="{Binding Categories}"
+				  SelectedItem="{Binding SelectedCategory}" />
+	</Grid>
+</UserControl>
