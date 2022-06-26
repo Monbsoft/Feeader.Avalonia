@@ -38,6 +38,25 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
                     Debug.WriteLine($"Feed {_selected?.Name} removed");
                 }
             });
+            UpCommand = ReactiveCommand.Create(() =>
+            {
+                if (_selected != null)
+                {
+                    int index = Feeds.IndexOf(_selected);
+                    if(index > 0)
+                        Feeds.Move(index, index - 1);
+                }                    
+
+            });
+            DownCommand = ReactiveCommand.Create(() =>
+            {
+                if (_selected != null)
+                {
+                    int index = Feeds.IndexOf(_selected);
+                    if (index < Feeds.Count -1)
+                        Feeds.Move(index, index + 1);
+                }
+            });
         }
 
         /// <summary>
@@ -52,6 +71,7 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
             get;
             private set;
         }
+        public ReactiveCommand<Unit, Unit> DownCommand { get; }
         /// <summary>
         /// Gets or sets feeds
         /// </summary>
@@ -76,5 +96,6 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
             get => _selectedFeedViewModel;
             set => this.RaiseAndSetIfChanged(ref _selectedFeedViewModel, value);
         }
+        public ReactiveCommand<Unit, Unit> UpCommand { get; }
     }
 }

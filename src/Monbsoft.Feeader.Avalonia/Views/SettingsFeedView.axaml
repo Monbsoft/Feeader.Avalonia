@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:material="using:Material.Icons.Avalonia"
 			 xmlns:views="using:Monbsoft.Feeader.Avalonia.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Monbsoft.Feeader.Avalonia.Views.SettingsFeedView">
@@ -23,17 +24,40 @@
 			<ListBox Items="{Binding Feeds}" SelectedItem="{Binding Selected}">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding Name}"/>
+						<TextBlock Text="{Binding Name}" />
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
 			<StackPanel Grid.Column="1" HorizontalAlignment="Center">
 				<Button Command="{Binding AddCommand}"
-						Width="100">Add</Button>
+						Width="100">
+					<StackPanel Orientation="Horizontal">
+						<material:MaterialIcon Kind="Add" />
+						<TextBlock Margin="5,0" 
+								   Text="Add" />
+					</StackPanel>
+				</Button>
 				<Button Command="{Binding RemoveCommand}"
-						Width="100">Remove</Button>
+						Width="100">
+					<StackPanel Orientation="Horizontal">
+						<material:MaterialIcon Kind="Delete"/>
+						<TextBlock Margin="5,0" Text="Remove"/>
+					</StackPanel>
+				</Button>
+				<Button Command="{Binding UpCommand}" Width="100">
+					<StackPanel Orientation="Horizontal">
+						<material:MaterialIcon Kind="ArrowUp" />
+						<TextBlock Margin="5,0" Text="Up"/>
+					</StackPanel>
+				</Button>
+				<Button Command="{Binding DownCommand}" Width="100">
+					<StackPanel Orientation="Horizontal">
+						<material:MaterialIcon Kind="ArrowDown" />
+						<TextBlock Margin="5,0" Text="Down"/>
+					</StackPanel>
+				</Button>				
 			</StackPanel>
 		</Grid>
-		<views:SelectedFeedView Grid.Row="2" DataContext="{Binding SelectedFeed}"/>
+		<views:SelectedFeedView Grid.Row="2" DataContext="{Binding SelectedFeed}" />
 	</Grid>
 </UserControl>
