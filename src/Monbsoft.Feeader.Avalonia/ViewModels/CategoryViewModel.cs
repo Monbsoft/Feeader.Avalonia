@@ -18,25 +18,28 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
 
         public CategoryViewModel(Workspace workspace, Category category)
         {
-            this.WhenAnyValue(x => x.SelectedFeed)
-                .Subscribe(LoadArticles);
-
             Feeds = new ObservableCollection<Feed>(workspace.Feeds.Where(f => f.CategoryId == category.Id));
             _category = category;
+
+            this.WhenAnyValue(x => x.SelectedFeed)
+                .Subscribe(LoadArticles);
         }
 
         /// <summary>
         /// Gets the articles
         /// </summary>
         public ObservableCollection<ArticleViewModel> Articles { get; } = new();
+
         /// <summary>
         /// Gets the feeds
         /// </summary>
         public ObservableCollection<Feed> Feeds { get; }
+
         /// <summary>
         /// Gets the category name
         /// </summary>
         public string Name => _category.Name;
+
         /// <summary>
         /// Gets or sets the view model of the selected article
         /// </summary>
@@ -45,6 +48,7 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
             get => _selectedArticle;
             set => this.RaiseAndSetIfChanged(ref _selectedArticle, value);
         }
+
         /// <summary>
         /// Gets or sets the selected feed
         /// </summary>

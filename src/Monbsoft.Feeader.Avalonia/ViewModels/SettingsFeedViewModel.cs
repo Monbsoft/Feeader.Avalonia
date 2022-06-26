@@ -15,6 +15,9 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
 
         public SettingsFeedViewModel(Workspace workspace)
         {
+            Categories = workspace.Categories;
+            Feeds = workspace.Feeds;
+
             this.WhenAnyValue(x => x.Selected)
                 .Subscribe(x =>
                 {
@@ -23,8 +26,6 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
                     else
                         SelectedFeed = new SelectedFeedViewModel(workspace, _selected);
                 });
-            Categories = workspace.Categories;
-            Feeds = workspace.Feeds;
 
             AddCommand = ReactiveCommand.Create(() =>
             {

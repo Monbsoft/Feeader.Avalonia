@@ -20,6 +20,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
+        Categories = new ObservableCollection<CategoryViewModel>();
         ShowDialog = new Interaction<SettingsWindowViewModel, Workspace>();
 
         SettingsCommand = ReactiveCommand.CreateFromTask(async () =>
@@ -31,7 +32,6 @@ public class MainWindowViewModel : ViewModelBase
         });        
 
         PictureService.InitializePictureCache();
-        Categories = new ObservableCollection<CategoryViewModel>();
 
         RxApp.MainThreadScheduler.Schedule(LoadWorkspaceAsync);
     }
