@@ -17,14 +17,12 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
         {
             Categories = workspace.Categories;
             Feeds = workspace.Feeds;
+            SelectedFeed = new SelectedFeedViewModel(workspace);
 
             this.WhenAnyValue(x => x.Selected)
                 .Subscribe(x =>
                 {
-                    if (_selected == null)
-                        SelectedFeed = null;
-                    else
-                        SelectedFeed = new SelectedFeedViewModel(workspace, _selected);
+                    SelectedFeed.Select(x);
                 });
 
             AddCommand = ReactiveCommand.Create(() =>
@@ -46,7 +44,6 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
         /// Gets the add command
         /// </summary>
         public ReactiveCommand<Unit, Unit> AddCommand { get; }
-
         /// <summary>
         /// Gets thes categories
         /// </summary>
@@ -55,17 +52,14 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
             get;
             private set;
         }
-
         /// <summary>
         /// Gets or sets feeds
         /// </summary>
         public ObservableCollection<Feed> Feeds { get; }
-
         /// <summary>
         /// Gets the remove command
         /// </summary>
         public ReactiveCommand<Unit, Unit> RemoveCommand { get; }
-
         /// <summary>
         /// Gets or sets the selected feed
         /// </summary>
@@ -74,8 +68,10 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
             get => _selected;
             set => this.RaiseAndSetIfChanged(ref _selected, value);
         }
-
-        public SelectedFeedViewModel? SelectedFeed
+        /// <summary>
+        /// Gets or sets the selected feed view model
+        /// </summary>
+        public SelectedFeedViewModel SelectedFeed
         {
             get => _selectedFeedViewModel;
             set => this.RaiseAndSetIfChanged(ref _selectedFeedViewModel, value);

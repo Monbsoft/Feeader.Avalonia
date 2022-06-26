@@ -12,7 +12,6 @@ namespace Monbsoft.Feeader.Avalonia.Models
             : this(name, link, DateTime.UtcNow, null)
         {          
         }
-
         [JsonConstructor]
         public Feed(string name, string link, DateTime creationDate, string? categoryId)
         {
@@ -22,13 +21,25 @@ namespace Monbsoft.Feeader.Avalonia.Models
             CategoryId = categoryId;
         }
 
+        /// <summary>
+        /// Gets the creation date
+        /// </summary>
         public DateTime CreationDate { get; }
+        /// <summary>
+        /// Gets or sets the link of the feed
+        /// </summary>
         public string Link { get; set; }
+        /// <summary>
+        /// Gets or sets the name of the feed
+        /// </summary>
         public string Name 
         {
             get => _name;
             set => this.RaiseAndSetIfChanged(ref _name, value);
         }
+        /// <summary>
+        /// Gets or sets the category id
+        /// </summary>
         public string? CategoryId { get; set; }
 
         public override bool Equals(object? obj)

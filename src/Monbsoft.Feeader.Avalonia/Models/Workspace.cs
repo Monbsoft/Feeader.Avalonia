@@ -19,7 +19,13 @@ namespace Monbsoft.Feeader.Avalonia.Models
             Feeds = feeds;
         }   
 
+        /// <summary>
+        /// Gets the categories
+        /// </summary>
         public ObservableCollection<Category> Categories { get; }
+        /// <summary>
+        /// Gets the feeds
+        /// </summary>
         public ObservableCollection<Feed> Feeds { get; }
     }
 }

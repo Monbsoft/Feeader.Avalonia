@@ -54,8 +54,6 @@ public class Article
         //return Link.GetComponents(UriComponents.Host | UriComponents.Path, UriFormat.Unescaped).GetHashCode();
         return Id.GetHashCode();
     }
-
-
     public override string ToString()
     {
         return Title;

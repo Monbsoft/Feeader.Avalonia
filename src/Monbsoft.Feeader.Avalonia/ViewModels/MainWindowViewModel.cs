@@ -36,13 +36,22 @@ public class MainWindowViewModel : ViewModelBase
         RxApp.MainThreadScheduler.Schedule(LoadWorkspaceAsync);
     }
 
+    /// <summary>
+    /// Gets the settings command
+    /// </summary>
     public ICommand SettingsCommand { get; }
-
-    public ObservableCollection<CategoryViewModel> Categories { get; } = new();
-
-    
+    /// <summary>
+    /// Gets or sets the categories
+    /// </summary>
+    public ObservableCollection<CategoryViewModel> Categories { get; } = new();    
+    /// <summary>
+    /// Gets the show dialog
+    /// </summary>
     public Interaction<SettingsWindowViewModel, Workspace> ShowDialog { get; }
 
+    /// <summary>
+    /// Loads the workspace
+    /// </summary>
     public async void LoadWorkspaceAsync()
     {
         Debug.WriteLine("Loading workspace...");

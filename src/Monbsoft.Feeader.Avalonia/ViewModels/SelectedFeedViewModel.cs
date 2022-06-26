@@ -8,13 +8,12 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
 {
     public class SelectedFeedViewModel : ViewModelBase
     {
-        private readonly Feed _feed;
+        private Feed _feed;
         private Category _category;
 
-        public SelectedFeedViewModel(Workspace workspace, Feed feed)
+        public SelectedFeedViewModel(Workspace workspace)
         {
             Categories = workspace.Categories;
-            _feed = feed;
 
             this.WhenAnyValue(x => x.Feed)
                 .Subscribe(x =>
@@ -25,24 +24,41 @@ namespace Monbsoft.Feeader.Avalonia.ViewModels
                         SelectedCategory = null;
                 });
             this.WhenAnyValue(x => x.SelectedCategory)
-                .Subscribe(x => feed.CategoryId = SelectedCategory?.Id);
+                .Subscribe(x => 
+                {
+                    if (Feed != null)
+                        Feed.CategoryId = SelectedCategory?.Id;
+                });
         }
 
+        /// <summary>
+        /// Gets the categories
+        /// </summary>
         public ObservableCollection<Category> Categories
         {
             get;
             private set;
         }
-
+        /// <summary>
+        /// Gets the feed
+        /// </summary>
         public Feed Feed
         {
             get => _feed;
+            private set => this.RaiseAndSetIfChanged(ref _feed, value);
         }
-
+        /// <summary>
+        /// Gets or sets the selected category.
+        /// </summary>
         public Category? SelectedCategory
         {
             get => _category;
             set => this.RaiseAndSetIfChanged(ref _category, value);
+        }
+
+        public void Select(Feed feed)
+        {
+            Feed = feed;                 
         }
     }
 }
